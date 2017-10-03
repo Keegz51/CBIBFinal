@@ -1,0 +1,37 @@
+@model IEnumerable<CBIB.Models.Author>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3>Authors</h3>
+
+<form asp-controller="Authors" asp-action="Index">
+    <p>
+        <input type="text" name="id">
+        <input type="submit" value="search" />
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Author @Html.DisplayNameFor(model => model.Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <!--<a asp-action="Edit" asp-route-id="@item.AuthorID">Edit</a> |-->
+                <a asp-action="Details" asp-route-id="@item.AuthorID">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

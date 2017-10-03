@@ -1,0 +1,40 @@
+﻿@*﻿@model CBIB.Models.Node*@
+@model CBIB.Views.ViewModels.UserManagementAddRoleViewModel
+
+@{
+    ViewData["Title"] = "Assign Node";
+}
+
+@{
+    <h3>Add Node For @Model.Email</h3>
+    <form asp-controller="UserManagement" asp-action="Index" method="post" asp-route-id="@Model.UserId" class="form-horizontal" role="form">
+        <div class="form-group">
+            <div class="row">
+                <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                    <select asp-for="ID"class="form-control"
+                        asp-items="@(new SelectList(@ViewBag.ListOfNodes,"ID", "Name"))">
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                    <input id="Submit1" type="submit" value="submit" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                    @if (ViewBag.SelectedValue != null)
+                    {
+                        <text>Selected Country ID: </text> @ViewBag.SelectedValue;
+                    }
+                </div>
+            </div>
+        </div>
+    </form>
+}
