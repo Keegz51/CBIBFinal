@@ -1,4 +1,5 @@
 using CBIB.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -57,59 +58,39 @@ namespace CBIB.Controllers
         }
 
         //Task Download
-        public async Task<IActionResult> TaskDownload(long id)
+        public async Task<IActionResult> JournalDownload(long id)
         {
-            var journal = from m in _context.Journal select m;
-
-            var journalList = (await journal.ToListAsync());
-
-            var journalUrl ="";
-
-            foreach (Journal j in journalList)
-            {
-                if (j.ID==id)
-                {
-                    journalUrl = j.url;        
-                }
-            }
-            return File(journalUrl, "application/pdf", "Too.pdf");
+            return File((await Download(id, "JournalUrl")), "application/pdf", "Too.pdf");
         }
+
+        [Authorize(Roles = "Global Administrator,  Node Administrator")]
+        public async Task<IActionResult> PeerReviewDownload(long id)
+        {
+            return File((await Download(id, "PeerUrl")), "application/pdf", "Too.pdf");
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Title,Year,Abstract")] Journal journal, ICollection<IFormFile> files)
+        public async Task<IActionResult> Create([Bind("ID,Title,Type,CoAuthor1,CoAuthor2,Year,Abstract")] Journal journal, IFormFile file1, IFormFile file2)
         {
-            string url = "";
-            var uploads = Path.Combine(_environment.WebRootPath, "uploads");
-            foreach (var file in files)
-            {
-                if (file.Length > 0)
-                {
-                    url = Path.Combine(uploads, file.FileName);
-                   
-                    using (var fileStream = new FileStream(url, FileMode.Create))
-                    {
-                        await file.CopyToAsync(fileStream);
-                    }
-                }
-            }
-
-            string SignificantPath = url;
-            int index = 0;
-            index = SignificantPath.IndexOf("uploads");
-
-            SignificantPath = url.Substring(index-1);
-            SignificantPath = @SignificantPath.Replace("\\","/");
-
-            url = SignificantPath;
-
             var user = await _userManager.GetUserAsync(User);
             var author = _context.Author.Find(user.AuthorID);
 
             if (ModelState.IsValid)
             {
                 journal.AuthorID = user.AuthorID;
-                journal.url = url;
+
+                if (file1 != null)
+                {
+                    journal.url = await Upload(file1);
+                }
+
+                if (file2 != null)
+                {
+                    journal.PeerUrl = await Upload(file2);
+                }
+
                 _context.Add(journal);
                 await _context.SaveChangesAsync();
 
@@ -142,17 +123,32 @@ namespace CBIB.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("ID,Title,Year,AuthorID")] Journal journal)
+        public async Task<IActionResult> Edit(long id, [Bind("ID,Title,Type,CoAuthor1,CoAuthor2,Year,Abstract")] Journal journal, IFormFile file1, IFormFile file2)
         {
             if (id != journal.ID)
             {
                 return NotFound();
             }
 
+            var user = await _userManager.GetUserAsync(User);
+            var author = _context.Author.Find(user.AuthorID);
+
             if (ModelState.IsValid)
             {
                 try
                 {
+                    journal.AuthorID = user.AuthorID;
+
+                    if (file1 != null)
+                    {
+                        journal.url = await Upload(file1);
+                    }
+
+                    if (file2 != null)
+                    {
+                        journal.PeerUrl = await Upload(file2);
+                    }
+
                     _context.Update(journal);
                     await _context.SaveChangesAsync();
                 }
@@ -204,6 +200,56 @@ namespace CBIB.Controllers
         private bool JournalExists(long id)
         {
             return _context.Journal.Any(e => e.ID == id);
+        }
+
+        private async Task<string> Upload(IFormFile file)
+        {
+            string url = "";
+            var uploads = Path.Combine(_environment.WebRootPath, "uploads");
+
+            url = Path.Combine(uploads, file.FileName);
+
+            using (var fileStream = new FileStream(url, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+            string SignificantPath = url;
+            int index = 0;
+            index = SignificantPath.IndexOf("uploads");
+
+            SignificantPath = url.Substring(index - 1);
+            SignificantPath = @SignificantPath.Replace("\\", "/");
+
+            return SignificantPath;
+        }
+
+        private async Task<string> Download(long id, string type)
+        {
+            var journal = from m in _context.Journal select m;
+
+            var journalList = (await journal.ToListAsync());
+
+            var Url = "";
+
+            foreach (Journal j in journalList)
+            {
+                if (type.Equals("JournalUrl"))
+                {
+                    if (j.ID == id)
+                    {
+                        Url = j.url;
+                    }
+                }
+                else if (type.Equals("PeerUrl"))
+                {
+                    if (j.ID == id)
+                    {
+                        Url = j.PeerUrl;
+                    }
+                }
+            }
+            return Url;
         }
     }
 }

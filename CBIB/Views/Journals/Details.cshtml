@@ -1,5 +1,6 @@
 @model CBIB.Models.Journal
-
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Details";
 }
@@ -16,12 +17,33 @@
         <dd>
             @Html.DisplayFor(model => model.Title)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CoAuthor1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CoAuthor1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CoAuthor2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CoAuthor2)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Year)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Year)
         </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Abstract)
         </dt>
@@ -32,7 +54,11 @@
 </div>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-    <a asp-controller="Journals" asp-action="TaskDownload" asp-route-id="@Model.ID">Download pdf</a>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> ||
+    <a asp-action="Index">Back to List</a> ||
+    <a asp-controller="Journals" asp-action="JournalDownload" asp-route-id="@Model.ID">Download pdf copy of Journal</a> ||
+    @if (User.IsInRole("Global Administrator") || User.IsInRole("Node Administrator"))
+    {
+        <a asp-controller="Journals" asp-action="PeerReviewDownload" asp-route-id="@Model.ID">Download pdf copy of Peer Review</a>
+    }
 </div>
