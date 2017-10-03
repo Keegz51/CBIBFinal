@@ -37,7 +37,6 @@ namespace CBIB.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-
             var vm = new UserManagementIndexViewModel
             {
                 Users = _dbContext.Users.OrderBy(u => u.Email).Include(u => u.Roles).ToList()

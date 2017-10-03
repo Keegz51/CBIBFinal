@@ -91,6 +91,7 @@ namespace CBIB.Controllers
                     journal.PeerUrl = await Upload(file2);
                 }
 
+                journal.ProofOfpeerReview = "This journal has not yet been peer reviewed";
                 _context.Add(journal);
                 await _context.SaveChangesAsync();
 
@@ -123,7 +124,7 @@ namespace CBIB.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("ID,Title,Type,CoAuthor1,CoAuthor2,Year,Abstract")] Journal journal, IFormFile file1, IFormFile file2)
+        public async Task<IActionResult> Edit(long id, [Bind("ID,Title,Type,CoAuthor1,CoAuthor2,Year,Abstract,PeerReviewed")] Journal journal, IFormFile file1, IFormFile file2)
         {
             if (id != journal.ID)
             {
@@ -147,6 +148,11 @@ namespace CBIB.Controllers
                     if (file2 != null)
                     {
                         journal.PeerUrl = await Upload(file2);
+                    }
+
+                    if(journal.PeerReviewed)
+                    {
+                        journal.ProofOfpeerReview = "This journal has been peer reviewed";
                     }
 
                     _context.Update(journal);

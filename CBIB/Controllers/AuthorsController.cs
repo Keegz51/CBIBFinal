@@ -1,33 +1,42 @@
-using System;
-using System.Collections.Generic;
+using CBIB.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using CBIB.Models;
 
 namespace CBIB.Controllers
 {
     public class AuthorsController : Controller
     {
         private readonly CBIBContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AuthorsController(CBIBContext context)
+        public AuthorsController(CBIBContext context, UserManager<ApplicationUser> userManager)
         {
-            _context = context;    
+            _context = context;
+            _userManager = userManager;
         }
 
         // GET: Authors
         public async Task<IActionResult> Index(string id)
         {
-            var movies = from m in _context.Author select m;
+            //    var movies = from m in _context.Author select m;
 
-            if (!String.IsNullOrEmpty(id))
-            {
-                movies = movies.Where(s => s.Name.Contains(id));
-            }
-            return View(await movies.ToListAsync());
+            //if (!String.IsNullOrEmpty(id))
+            //{
+            //    movies = movies.Where(s => s.Name.Contains(id));
+            //}
+            //return View(await movies.ToListAsync());
+            var user = await _userManager.GetUserAsync(User);
+
+            Author currentAuthor = await _context.Author.FindAsync(user.AuthorID);
+
+            var Authors = _context.Author.Where(s => s.NodeID.Equals(currentAuthor.NodeID));
+            
+
+            //System.Console.Write("Look here"+Authors.ToString());
+            return View(await Authors.ToListAsync());
         }
 
         // GET: Authors/Details/5
