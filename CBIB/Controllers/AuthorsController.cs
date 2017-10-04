@@ -41,6 +41,7 @@ namespace CBIB.Controllers
             if (User.IsInRole("Global Administrator"))
             {
                 AuthorList = await _context.Author.ToListAsync();
+                NodesList = await _context.Node.ToListAsync();
                 avm.dict = Display(AuthorList, NodesList);
             }
 
