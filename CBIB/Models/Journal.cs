@@ -10,10 +10,10 @@ namespace CBIB.Models
         [Display(Name = "Research Output")]
         public string Type { get; set; }
 
-        [Display(Name = "First Co-Author")]
+        [Display(Name = "Author 1")]
         public string CoAuthor1 { get; set; }
 
-        [Display(Name = "Second Co-Author")]
+        [Display(Name = "Author 2")]
         public string CoAuthor2 { get; set; }
 
         public string Year { get; set; }

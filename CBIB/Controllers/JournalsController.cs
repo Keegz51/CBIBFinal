@@ -52,8 +52,20 @@ namespace CBIB.Controllers
         }
 
         // GET: Journals/Create
+        [HttpGet]
         public IActionResult Create()
         {
+            List<Author> coAuthors = new List<Author>();
+
+            coAuthors = (from Name in _context.Author select Name).ToList();
+
+            coAuthors.Insert(0, new Author
+            {
+                AuthorID = 0,
+                Name = "Select"
+            });
+
+            ViewBag.ListOfNodes = coAuthors;
             return View();
         }
 
@@ -63,7 +75,7 @@ namespace CBIB.Controllers
             return File((await Download(id, "JournalUrl")), "application/pdf", "Too.pdf");
         }
 
-        [Authorize(Roles = "Global Administrator,  Node Administrator")]
+        [Authorize(Roles = "Global Administrator, Node Administrator")]
         public async Task<IActionResult> PeerReviewDownload(long id)
         {
             return File((await Download(id, "PeerUrl")), "application/pdf", "Too.pdf");
@@ -72,13 +84,23 @@ namespace CBIB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Title,Type,CoAuthor1,CoAuthor2,Year,Abstract")] Journal journal, IFormFile file1, IFormFile file2)
+        public async Task<IActionResult> Create([Bind("ID,Title,Type,Year,Abstract")] Journal journal, IFormFile file1, IFormFile file2, Journal listBox)
         {
             var user = await _userManager.GetUserAsync(User);
             var author = _context.Author.Find(user.AuthorID);
 
             if (ModelState.IsValid)
             {
+                if (!listBox.CoAuthor1.Equals("0"))
+                {
+                    journal.CoAuthor1 = await FindAuthorName(listBox.CoAuthor1);
+                }
+
+                if (!listBox.CoAuthor1.Equals("0"))
+                {
+                    journal.CoAuthor2 = await FindAuthorName(listBox.CoAuthor2);
+                }
+                    
                 journal.AuthorID = user.AuthorID;
 
                 if (file1 != null)
@@ -112,6 +134,19 @@ namespace CBIB.Controllers
             }
 
             var journal = await _context.Journal.SingleOrDefaultAsync(m => m.ID == id);
+
+            List<Author> coAuthors = new List<Author>();
+
+            coAuthors = (from Name in _context.Author select Name).ToList();
+
+            coAuthors.Insert(0, new Author
+            {
+                AuthorID = 0,
+                Name = "Select"
+            });
+
+            ViewBag.ListOfNodes = coAuthors;
+
             if (journal == null)
             {
                 return NotFound();
@@ -124,7 +159,7 @@ namespace CBIB.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("ID,Title,Type,CoAuthor1,CoAuthor2,Year,Abstract,PeerReviewed")] Journal journal, IFormFile file1, IFormFile file2)
+        public async Task<IActionResult> Edit(long id, [Bind("ID,Title,Type,Year,Abstract,PeerReviewed")] Journal journal, IFormFile file1, IFormFile file2, Journal listBox)
         {
             if (id != journal.ID)
             {
@@ -133,11 +168,31 @@ namespace CBIB.Controllers
 
             var user = await _userManager.GetUserAsync(User);
             var author = _context.Author.Find(user.AuthorID);
+            var currentJournal = _context.Journal.Find(id);
+            _context.Entry(currentJournal).State = EntityState.Detached;
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (!listBox.CoAuthor1.Equals("0"))
+                    {
+                        journal.CoAuthor1 = await FindAuthorName(listBox.CoAuthor1);
+                    }
+                    else
+                    {
+                        journal.CoAuthor1 = currentJournal.CoAuthor1;
+                    }
+
+                    if (!listBox.CoAuthor2.Equals("0"))
+                    {
+                        journal.CoAuthor2 = await FindAuthorName(listBox.CoAuthor2);
+                    }
+                    else
+                    {
+                        journal.CoAuthor2 = currentJournal.CoAuthor2;
+                    }
+
                     journal.AuthorID = user.AuthorID;
 
                     if (file1 != null)
@@ -172,6 +227,11 @@ namespace CBIB.Controllers
                 return RedirectToAction("Index");
             }
             return View(journal);
+        }
+
+        private Task<string> FindAuthorName(Task<string> task)
+        {
+            throw new NotImplementedException();
         }
 
         // GET: Journals/Delete/5
@@ -256,6 +316,13 @@ namespace CBIB.Controllers
                 }
             }
             return Url;
+        }
+
+        private async Task<string> FindAuthorName(string id)
+        {
+            string result = ((await _context.Author.FindAsync(Convert.ToInt64(id)))).Name;
+
+            return result;
         }
     }
 }

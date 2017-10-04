@@ -110,14 +110,6 @@ namespace CBIB.Controllers
         [HttpGet]
         public IActionResult Register(string returnUrl = null)
         {
-            //var user = await GetUserById(id);
-
-            //var vm = new UserManagementAddRoleViewModel
-            //{
-            //    UserId = id,
-            //    Email = user.Email
-            //};
-
             List<Node> nodes = new List<Node>();
 
             nodes = (from Name in _context.Node select Name).ToList();
@@ -163,14 +155,13 @@ namespace CBIB.Controllers
 
                 if (node.ID == 0)
                 {
-                    ModelState.AddModelError("", "Select Country");
+                    ModelState.AddModelError("", "Select Node");
                 }
 
                 long SelectValue = node.ID;
 
                 ViewBag.SelectedValue = node.ID;
 
-                //var author = await _context.Author.FindAsync(user.AuthorID);
                 var nodeAssigned = (await _context.Node.FindAsync(node.ID));
 
                 List<Node> nodes = new List<Node>();
