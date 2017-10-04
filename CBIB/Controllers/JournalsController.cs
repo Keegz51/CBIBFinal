@@ -295,7 +295,12 @@ namespace CBIB.Controllers
             string url = "";
             var uploads = Path.Combine(_environment.WebRootPath, "uploads");
 
-            url = Path.Combine(uploads, file.FileName);
+            string fName = file.FileName;
+
+            string fileName = fName.Substring(fName.LastIndexOf("\\")+1);
+
+            //url = Path.Combine(uploads,fileName);
+            url = uploads +"\\"+ fileName;
 
             using (var fileStream = new FileStream(url, FileMode.Create))
             {
