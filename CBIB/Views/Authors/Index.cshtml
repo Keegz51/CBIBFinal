@@ -1,5 +1,6 @@
-@model IEnumerable<CBIB.Models.Author>
+@*@model IEnumerable<CBIB.Models.Author>*@
 
+@model CBIB.Views.ViewModels.AuthorIndexViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -16,20 +17,24 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-               Author @Html.DisplayNameFor(model => model.Name)
-            </th>
+            <th>Author Name</th>
+            <th>Node</th>
+            <th>Details</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+
+@foreach (var item in Model.dict) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Key.Name)
             </td>
             <td>
-                <!--<a asp-action="Edit" asp-route-id="@item.AuthorID">Edit</a> |-->
-                <a asp-action="Details" asp-route-id="@item.AuthorID">Details</a>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+            <td>
+                <!--<a asp-action="Edit" asp-route-id="@item.Key.AuthorID">Edit</a> |-->
+                <a asp-action="Details" asp-route-id="@item.Key.AuthorID">Details</a>
             </td>
         </tr>
 }

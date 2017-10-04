@@ -1,7 +1,9 @@
 using CBIB.Models;
+using CBIB.Views.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,15 +30,44 @@ namespace CBIB.Controllers
             //    movies = movies.Where(s => s.Name.Contains(id));
             //}
             //return View(await movies.ToListAsync());
-            var user = await _userManager.GetUserAsync(User);
 
+            AuthorIndexViewModel avm = null;
+            List<Author> AuthorList = null;
+            List<Node> NodesList = null;
+
+            var user = await _userManager.GetUserAsync(User);
             Author currentAuthor = await _context.Author.FindAsync(user.AuthorID);
 
-            var Authors = _context.Author.Where(s => s.NodeID.Equals(currentAuthor.NodeID));
-            
+            if (User.IsInRole("Global Administrator"))
+            {
+                AuthorList = await _context.Author.ToListAsync();
+                
+                avm = new AuthorIndexViewModel
+                {
+                    dict = Display(AuthorList, NodesList)
+                };
+            }
 
-            //System.Console.Write("Look here"+Authors.ToString());
-            return View(await Authors.ToListAsync());
+            else if (User.IsInRole("Node Administrator"))
+            {
+
+                AuthorList = await _context.Author.Where(s => s.NodeID.Equals(currentAuthor.NodeID)).ToListAsync();
+                NodesList = NodesList = await _context.Node.Where(s => s.ID.Equals(currentAuthor.NodeID)).ToListAsync();
+
+                avm = new AuthorIndexViewModel
+                {
+                    dict = Display(AuthorList, NodesList)
+                };
+            }
+            else
+            {
+                var Authors = _context.Author.Where(s => s.NodeID.Equals(currentAuthor.NodeID));
+
+                AuthorList = await Authors.ToListAsync();
+            }
+
+            return View(avm);
+
         }
 
         // GET: Authors/Details/5
@@ -165,6 +196,23 @@ namespace CBIB.Controllers
         private bool AuthorExists(long id)
         {
             return _context.Author.Any(e => e.AuthorID == id);
+        }
+
+        private IDictionary<Author, string> Display(List<Author> authorList, List<Node> nodeList)
+        {
+            IDictionary<Author, string> dictionary = new Dictionary<Author, string>();
+
+            foreach (Author author in authorList)
+            {
+                foreach (Node node in nodeList)
+                {
+                    if (author.NodeID.Equals(node.ID))
+                    {
+                        dictionary.Add(author, node.Name);
+                    }
+                }
+            }
+            return dictionary;
         }
     }
 }
