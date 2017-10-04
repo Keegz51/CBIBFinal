@@ -30,7 +30,29 @@ namespace CBIB.Controllers
         // GET: Journals
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Journal.ToListAsync());
+            if (User.IsInRole("Global Administrator"))
+            {
+                return View(await _context.Journal.ToListAsync());
+            }
+            var user = await _userManager.GetUserAsync(User);
+            var currentAuthor = _context.Author.Find(user.AuthorID);
+
+            var journalsList = await _context.Journal.Where(a => a.AuthorID.Equals(currentAuthor.AuthorID)).ToListAsync();
+
+            var CoAuthorList = await _context.Journal.Where(a => a.CoAuthor1.Equals(currentAuthor.Name)).ToListAsync();
+
+            foreach (Journal coAuthor in CoAuthorList)
+            {
+                journalsList.Add(coAuthor);
+            }
+
+            CoAuthorList = await _context.Journal.Where(a => a.CoAuthor2.Equals(currentAuthor.Name)).ToListAsync();
+
+            foreach (Journal coAuthor in CoAuthorList)
+            {
+                journalsList.Add(coAuthor);
+            }
+            return View(journalsList);
         }
 
         // GET: Journals/Details/5
