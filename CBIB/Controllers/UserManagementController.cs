@@ -49,11 +49,11 @@ namespace CBIB.Controllers
                 vm.Users = _dbContext.Users.OrderBy(u => u.Email).Include(u => u.Roles).ToList();
             }
 
-            else
+            else if (User.IsInRole("Node Administrator"))
             {
                 authorList = _CBIBContext.Author.ToList();
-                List<Author> list = null;
-                List<ApplicationUser> Users = null;
+                List<Author> list = new List<Author>();
+                List<ApplicationUser> Users = new List<ApplicationUser>();
 
                 foreach (Author a in authorList)
                 {
@@ -62,8 +62,21 @@ namespace CBIB.Controllers
                         list.Add(a);
                     }
                 }
-            }
 
+                UserList = await _dbContext.Users.Include(r=>r.Roles).ToListAsync();
+
+                foreach (ApplicationUser u in UserList.ToList())
+                {
+                    foreach (Author a in list)
+                    {
+                        if(u.AuthorID == a.AuthorID)
+                        {
+                            Users.Add(u);
+                        }
+                    }
+                }
+                vm.Users = Users;
+            }
             return View(vm);
         }
 
