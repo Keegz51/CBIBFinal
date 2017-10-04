@@ -31,7 +31,7 @@ namespace CBIB.Controllers
             //}
             //return View(await movies.ToListAsync());
 
-            AuthorIndexViewModel avm = null;
+            AuthorIndexViewModel avm = new AuthorIndexViewModel();
             List<Author> AuthorList = null;
             List<Node> NodesList = null;
 
@@ -41,23 +41,14 @@ namespace CBIB.Controllers
             if (User.IsInRole("Global Administrator"))
             {
                 AuthorList = await _context.Author.ToListAsync();
-                
-                avm = new AuthorIndexViewModel
-                {
-                    dict = Display(AuthorList, NodesList)
-                };
+                avm.dict = Display(AuthorList, NodesList);
             }
 
             else if (User.IsInRole("Node Administrator"))
             {
-
                 AuthorList = await _context.Author.Where(s => s.NodeID.Equals(currentAuthor.NodeID)).ToListAsync();
                 NodesList = NodesList = await _context.Node.Where(s => s.ID.Equals(currentAuthor.NodeID)).ToListAsync();
-
-                avm = new AuthorIndexViewModel
-                {
-                    dict = Display(AuthorList, NodesList)
-                };
+                avm.dict = Display(AuthorList, NodesList);
             }
             else
             {

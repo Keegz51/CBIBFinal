@@ -35,12 +35,34 @@ namespace CBIB.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var vm = new UserManagementIndexViewModel
+            List<Author> authorList = null;
+            var vm = new UserManagementIndexViewModel();
+            List<ApplicationUser> UserList = new List<ApplicationUser>();
+
+            var user = await _userManager.GetUserAsync(User);
+            long currentUserNode = (await _CBIBContext.Author.FindAsync(user.AuthorID)).NodeID;
+
+            if (User.IsInRole("Global Administrator"))
             {
-                Users = _dbContext.Users.OrderBy(u => u.Email).Include(u => u.Roles).ToList()
-            };
+                vm.Users = _dbContext.Users.OrderBy(u => u.Email).Include(u => u.Roles).ToList();
+            }
+
+            else
+            {
+                authorList = _CBIBContext.Author.ToList();
+                List<Author> list = null;
+                List<ApplicationUser> Users = null;
+
+                foreach (Author a in authorList)
+                {
+                    if (a.NodeID == currentUserNode)
+                    {
+                        list.Add(a);
+                    }
+                }
+            }
 
             return View(vm);
         }

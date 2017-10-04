@@ -8,15 +8,17 @@
 {
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
-            @if (User.IsInRole("Global Administrator"))
+            @if (User.IsInRole("Global Administrator") || User.IsInRole("Node Administrator"))
             {
                 <li>
                     <a asp-area="" asp-controller="UserManagement" asp-action="Index">Manage User Roles</a>
                 </li>
-
-                <li>
-                    <a asp-area="" asp-controller="Account" asp-action="Register">Register New User</a>
-                </li>
+                @if (User.IsInRole("Global Administrator"))
+                {
+                    <li>
+                        <a asp-area="" asp-controller="Account" asp-action="Register">Register New User</a>
+                    </li>
+                }
             }
             <li>
                 <a asp-area="" asp-controller="Journals" asp-action="Index">Journals</a>
