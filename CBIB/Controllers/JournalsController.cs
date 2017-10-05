@@ -77,6 +77,19 @@ namespace CBIB.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            List<string> journalTypes = new List<String>();
+
+            journalTypes.Insert(0,"Select");
+            journalTypes.Insert(1, "Conference Paper");
+            journalTypes.Insert(2, "Journal");
+            journalTypes.Insert(3, "Thesis");
+            journalTypes.Insert(4, "Workshop Paper");
+            journalTypes.Insert(5, "Book");
+            journalTypes.Insert(6, "Book Chapter");
+            journalTypes.Insert(7, "Technical Report");
+
+            ViewBag.ListOfJournals = journalTypes.OrderBy(j=>j);
+
             List<Author> coAuthors = new List<Author>();
 
             coAuthors = (from Name in _context.Author select Name).OrderBy(n=>n.Name).ToList();
@@ -88,6 +101,7 @@ namespace CBIB.Controllers
             });
 
             ViewBag.ListOfNodes = coAuthors;
+
             return View();
         }
 
@@ -122,7 +136,12 @@ namespace CBIB.Controllers
                 {
                     journal.CoAuthor2 = await FindAuthorName(listBox.CoAuthor2);
                 }
-                    
+
+                if (listBox.Type.Equals("0"))
+                {
+                    journal.Type = await FindAuthorName(listBox.Type);
+                }
+
                 journal.AuthorID = user.AuthorID;
 
                 if (file1 != null)

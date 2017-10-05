@@ -5,8 +5,11 @@ namespace CBIB.Models
     public class Journal
     {
         public long ID { get; set; }
+
+        [Required]
         public string Title { get; set; }
 
+        [Required]
         [Display(Name = "Research Output")]
         public string Type { get; set; }
 
@@ -16,8 +19,10 @@ namespace CBIB.Models
         [Display(Name = "Author 2")]
         public string CoAuthor2 { get; set; }
 
+        [Required]
         public string Year { get; set; }
 
+        [Required]
         public string Abstract { get; set; }
 
         [Display(Name = "Proof of Peer Review")]

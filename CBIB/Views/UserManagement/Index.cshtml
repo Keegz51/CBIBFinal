@@ -2,22 +2,24 @@
 @model CBIB.Views.ViewModels.UserManagementIndexViewModel
 @inject UserManager<ApplicationUser> userManager
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>User ID</th>
-            <th>Roles</th>
-            <th>Options</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model.Users)
-        {
+<div class="container body-content">
+    <table class="table">
+        <thead>
             <tr>
-                <td>@user.Email</td>
-                <td>@(string.Join(",", await userManager.GetRolesAsync(user)))</td>
-                <td><a asp-controller="UserManagement" asp-action="AddRole" asp-route-id="@user.Id">Add Role</a></td>
+                <th>User ID</th>
+                <th>Roles</th>
+                <th>Options</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                    <td>@(string.Join(",", await userManager.GetRolesAsync(user)))</td>
+                    <td><a asp-controller="UserManagement" asp-action="AddRole" asp-route-id="@user.Id">Add Role</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

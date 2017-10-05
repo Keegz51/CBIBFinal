@@ -34,6 +34,8 @@ namespace CBIB.Controllers
             }
 
             var node = await _context.Node
+                .Include(a=>a.Authors)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (node == null)
             {

@@ -22,15 +22,13 @@
                         <a asp-area="" asp-controller="Nodes" asp-action="Index">Manage Nodes</a>
                     </li>
                 }
+                <li>
+                    <a asp-area="" asp-controller="Authors" asp-action="Index">View Authors</a>
+                </li>
             }
             <li>
                 <a asp-area="" asp-controller="Journals" asp-action="Index">Journals</a>
-            </li>
-
-            <li>
-                <a asp-area="" asp-controller="Authors" asp-action="Index">View Authors</a>
-            </li>
-            
+            </li> 
             <li>
                 <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">@UserManager.GetUserName(User)</a>
             </li>

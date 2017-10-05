@@ -8,8 +8,8 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/css/StyleSheet.css" />
+        @*<link rel="stylesheet" href="~/css/site.css" />*@
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -39,15 +39,12 @@
             </div>
         </div>
     </nav>
-    <div>
+    <div class="container body-content">
         @RenderBody()
-        <div class="container body-content">
-            <hr />
-            <footer>
-                <p>&copy; 2017 - CBIB</p>
-            </footer>
-        </div> 
-        
+        <hr />
+        <footer>
+            <p>&copy; 2017 - CBIB</p>
+        </footer>
     </div>
 
     <environment names="Development">

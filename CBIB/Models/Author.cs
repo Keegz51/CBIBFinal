@@ -15,5 +15,7 @@ namespace CBIB.Models
         public ICollection<Journal> Journals { get; set; }
         public long NodeID { get; set; }
 
+       // public List<Author> searchQuery { get; set; }
+
     }
 }

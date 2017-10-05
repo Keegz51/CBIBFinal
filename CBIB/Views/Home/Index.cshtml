@@ -3,80 +3,163 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<br />
-<br />
 
-@foreach (var item in Model.dict)
-{
-    <div class="panel panel-primary">
-
-        <div class="panel-heading">
-            <strong>
-                @Html.DisplayFor(modelItem => item.Key.Title)
-            </strong>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-lg-2">
+            <nav class="navbar navbar-default navbar-fixed-side">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown container" style="padding-left:60px">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
+                                    Author Name <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <form asp-controller="Home" asp-action="Index">
+                                            <input type="text" name="authorString" placeholder="Author Name">
+                                        </form>
+                                    </li>
+                                 </ul>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Year <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <form asp-controller="Home" asp-action="Index">
+                                            <input type="text" name="year" placeholder="year">
+                                        </form>
+                                    </li>
+                                </ul>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Type <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <form asp-controller="Home" asp-action="Index">
+                                            <input type="text" name="type" placeholder="Type">
+                                        </form>
+                                    </li>
+                                </ul>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Peer Reviewed <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <form asp-controller="Home" asp-action="Index">
+                                            <label for="Peer Reviewed">
+                                                <input type="checkbox" name="reviewed" style="padding-left:10px">
+                                            </label>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>  
+            </nav>
         </div>
-        
-        <div class="panel-body">
-            <div>
-                <strong>
-                    Author @Html.DisplayNameFor(modelItem => item.Value.Name)
-                </strong>
-                <br />
-                @Html.DisplayFor(modelItem => item.Value.Name)
-                <br />
-                <br />
-            </div>
-
-            <div>
-                <strong>
-                    @Html.DisplayNameFor(modelItem => item.Key.Type) Type
-                </strong>
-                <br />
-                @Html.DisplayFor(modelItem => item.Key.Type)
-                <br />
-                <br />
-            </div>
-            
-            <div>
-                <strong>
-                    Co-Authors
-                </strong>
-                <br />
-                @Html.DisplayFor(modelItem => item.Key.CoAuthor1), @Html.DisplayFor(modelItem => item.Key.CoAuthor2)
-                <br />
-                <br />
-            </div>
-
-            <div>
-                <strong>
-                    @Html.DisplayNameFor(modelItem => item.Key.Year)
-                </strong>
-                <br />
-                @Html.DisplayFor(modelItem => item.Key.Year)
-                <br />
-                <br />
-            </div>
-
-            <div>
-                <strong>
-                    @Html.DisplayNameFor(modelItem => item.Key.Abstract)
-                </strong>
-                <br />
-                @Html.DisplayFor(modelItem => item.Key.Abstract)
-                <br />
-                <br />
-            </div>
-
-            <div>
-                <strong>
-                    @Html.DisplayNameFor(modelItem => item.Key.ProofOfpeerReview)
-                </strong>
-                <br />
-                @Html.DisplayFor(modelItem => item.Key.ProofOfpeerReview)
-            </div>
+        <div class="container body-content">
             <br />
             <br />
+            <form asp-controller="Home" asp-action="Index">
+                <p>
+                    <input type="text" name="searchString">
+                    <input type="submit" value="search" />
+                </p>
+            </form>
+
+            <br />
+            @foreach (var item in Model.dict)
+            {
+        <div class="panel panel-primary">
+
+            <div class="panel-heading">
+                <strong>
+                    @Html.DisplayFor(modelItem => item.Key.Title)
+                </strong>
+            </div>
+
+            <div class="panel-body">
+                <div>
+                    <strong>
+                        Author @Html.DisplayNameFor(modelItem => item.Value.Name)
+                    </strong>
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Value.Name)
+                    <br />
+                    <br />
+                </div>
+
+                <div>
+                    <strong>
+                        @Html.DisplayNameFor(modelItem => item.Key.Type) Type
+                    </strong>
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Key.Type)
+                    <br />
+                    <br />
+                </div>
+
+                <div>
+                    <strong>
+                        Co-Authors
+                    </strong>
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Key.CoAuthor1), @Html.DisplayFor(modelItem => item.Key.CoAuthor2)
+                    <br />
+                    <br />
+                </div>
+
+                <div>
+                    <strong>
+                        @Html.DisplayNameFor(modelItem => item.Key.Year)
+                    </strong>
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Key.Year)
+                    <br />
+                    <br />
+                </div>
+
+                <div>
+                    <strong>
+                        @Html.DisplayNameFor(modelItem => item.Key.Abstract)
+                    </strong>
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Key.Abstract)
+                    <br />
+                    <br />
+                </div>
+
+                <div>
+                    <strong>
+                        @Html.DisplayNameFor(modelItem => item.Key.ProofOfpeerReview)
+                    </strong>
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Key.ProofOfpeerReview)
+                </div>
+                <br />
+                <br />
+            </div>
+        </div>
+    }
+
         </div>
     </div>
-}
+</div>
+@*<div class="container body-content">*@
+    
+   
+
+    
+@*</div>*@
 

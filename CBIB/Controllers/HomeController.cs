@@ -1,6 +1,7 @@
 ﻿using CBIB.Models;
 using CBIB.Views.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,11 +15,19 @@ namespace CBIB.Controllers
         {
             _CBIBContext = CBIBContext;
         }
-        public IActionResult Index()
+        public IActionResult Index(string searchString, int? id)
         {
             IDictionary<Journal, Author> dict = new Dictionary<Journal, Author>();
-
-            List<Author> authors = _CBIBContext.Author.ToList();
+            List<Author> authors = null;
+    
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                authors = _CBIBContext.Author.Where(s => s.Name.Contains(searchString)).ToList();
+            }
+            else
+            {
+                authors = _CBIBContext.Author.ToList();
+            }
             List<Journal> journals = _CBIBContext.Journal.ToList();
 
             dict = Display(journals, authors);

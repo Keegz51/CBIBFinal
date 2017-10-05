@@ -1,39 +1,41 @@
-@model CBIB.Views.ViewModels.HomeIndexViewModel
+@model CBIB.Models.Author
 
 @{
     ViewData["Title"] = "Details";
 }
+<div class="container body-content">
+    <h3>List of research papers </h3>
 
-<h3>List of research papers </h3>
-
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Journals<br />
-        </dt>
-        <dd>
-            <table class="table">
-                <tr>
-                    <th>Title</th>
-                    <th>Year</th>
-                </tr>
-                @foreach (var item in Model.dict)
-                {
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Journals<br />
+            </dt>
+            <dd>
+                <table class="table">
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Key.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Key.Year)
-                        </td>
+                        <th>Title</th>
+                        <th>Year</th>
                     </tr>
-                }
-            </table>
-        </dd>
+                    @foreach (var item in Model.Journals)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Year)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </dd>
 
-    </dl>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
 </div>
