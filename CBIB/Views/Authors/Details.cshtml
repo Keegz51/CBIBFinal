@@ -1,17 +1,16 @@
-@model CBIB.Models.Author
+@model CBIB.Views.ViewModels.HomeIndexViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
 <h3>List of research papers </h3>
-<h5>@Html.DisplayFor(model => model.Name)</h5>
 
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Journals) <br />
+            Journals<br />
         </dt>
         <dd>
             <table class="table">
@@ -19,18 +18,15 @@
                     <th>Title</th>
                     <th>Year</th>
                 </tr>
-                @foreach (var item in Model.Journals)
+                @foreach (var item in Model.dict)
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Title)
+                            @Html.DisplayFor(modelItem => item.Key.Title)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Year)
+                            @Html.DisplayFor(modelItem => item.Key.Year)
                         </td>
-                    </tr>
-                    <tr>
-                        @Html.DisplayFor(modelItem => item.Abstract)
                     </tr>
                 }
             </table>

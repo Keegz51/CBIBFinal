@@ -79,7 +79,7 @@ namespace CBIB.Controllers
         {
             List<Author> coAuthors = new List<Author>();
 
-            coAuthors = (from Name in _context.Author select Name).ToList();
+            coAuthors = (from Name in _context.Author select Name).OrderBy(n=>n.Name).ToList();
 
             coAuthors.Insert(0, new Author
             {
@@ -118,7 +118,7 @@ namespace CBIB.Controllers
                     journal.CoAuthor1 = await FindAuthorName(listBox.CoAuthor1);
                 }
 
-                if (!listBox.CoAuthor1.Equals("0"))
+                if (!listBox.CoAuthor2.Equals("0"))
                 {
                     journal.CoAuthor2 = await FindAuthorName(listBox.CoAuthor2);
                 }
@@ -230,6 +230,10 @@ namespace CBIB.Controllers
                     if(journal.PeerReviewed)
                     {
                         journal.ProofOfpeerReview = "This journal has been peer reviewed";
+                    }
+                    else
+                    {
+                        journal.ProofOfpeerReview = currentJournal.ProofOfpeerReview;
                     }
 
                     _context.Update(journal);
