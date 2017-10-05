@@ -9,8 +9,74 @@
 @foreach (var item in Model.dict)
 {
     <div class="panel panel-primary">
-        <div class="panel-heading">@Html.DisplayFor(modelItem => item.Key.Title)</div>
-        <div class="panel-body">Panel Content</div>
+
+        <div class="panel-heading">
+            <strong>
+                @Html.DisplayFor(modelItem => item.Key.Title)
+            </strong>
+        </div>
+        
+        <div class="panel-body">
+            <div>
+                <strong>
+                    Author @Html.DisplayNameFor(modelItem => item.Value.Name)
+                </strong>
+                <br />
+                @Html.DisplayFor(modelItem => item.Value.Name)
+                <br />
+                <br />
+            </div>
+
+            <div>
+                <strong>
+                    @Html.DisplayNameFor(modelItem => item.Key.Type) Type
+                </strong>
+                <br />
+                @Html.DisplayFor(modelItem => item.Key.Type)
+                <br />
+                <br />
+            </div>
+            
+            <div>
+                <strong>
+                    Co-Authors
+                </strong>
+                <br />
+                @Html.DisplayFor(modelItem => item.Key.CoAuthor1), @Html.DisplayFor(modelItem => item.Key.CoAuthor2)
+                <br />
+                <br />
+            </div>
+
+            <div>
+                <strong>
+                    @Html.DisplayNameFor(modelItem => item.Key.Year)
+                </strong>
+                <br />
+                @Html.DisplayFor(modelItem => item.Key.Year)
+                <br />
+                <br />
+            </div>
+
+            <div>
+                <strong>
+                    @Html.DisplayNameFor(modelItem => item.Key.Abstract)
+                </strong>
+                <br />
+                @Html.DisplayFor(modelItem => item.Key.Abstract)
+                <br />
+                <br />
+            </div>
+
+            <div>
+                <strong>
+                    @Html.DisplayNameFor(modelItem => item.Key.ProofOfpeerReview)
+                </strong>
+                <br />
+                @Html.DisplayFor(modelItem => item.Key.ProofOfpeerReview)
+            </div>
+            <br />
+            <br />
+        </div>
     </div>
 }
 
