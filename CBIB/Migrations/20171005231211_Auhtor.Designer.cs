@@ -8,9 +8,10 @@ using CBIB.Models;
 namespace CBIB.Migrations
 {
     [DbContext(typeof(CBIBContext))]
-    partial class CBIBContextModelSnapshot : ModelSnapshot
+    [Migration("20171005231211_Auhtor")]
+    partial class Auhtor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -83,7 +84,7 @@ namespace CBIB.Migrations
 
             modelBuilder.Entity("CBIB.Models.Author", b =>
                 {
-                    b.HasOne("CBIB.Models.Node", "Node")
+                    b.HasOne("CBIB.Models.Node")
                         .WithMany("Authors")
                         .HasForeignKey("NodeID")
                         .OnDelete(DeleteBehavior.Cascade);

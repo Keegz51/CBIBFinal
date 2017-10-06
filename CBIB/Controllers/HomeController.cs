@@ -1,9 +1,10 @@
 ﻿using CBIB.Models;
-using CBIB.Views.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace CBIB.Controllers
 {
@@ -15,30 +16,30 @@ namespace CBIB.Controllers
         {
             _CBIBContext = CBIBContext;
         }
-        public IActionResult Index(string searchString, int? id)
+        public async Task<IActionResult> Index(string authorString, string type, string year, bool reviewed, string node)
         {
-            IDictionary<Journal, Author> dict = new Dictionary<Journal, Author>();
-            List<Author> authors = null;
-    
-            if (!String.IsNullOrEmpty(searchString))
+            List<Journal> q = await _CBIBContext.Journal.Include(a => a.Author).ThenInclude(n=>n.Node).ToListAsync();
+
+            if ((!String.IsNullOrEmpty(authorString)))
             {
-                authors = _CBIBContext.Author.Where(s => s.Name.Contains(searchString)).ToList();
+                q = q.Where(p => p.Author.Name.ToLower().Contains(authorString.ToLower().Trim())).ToList();
             }
-            else
+            if ((!String.IsNullOrEmpty(type)))
             {
-                authors = _CBIBContext.Author.ToList();
+                q = q.Where(p => p.Type.ToLower().Contains(type.ToLower().Trim())).ToList();
             }
-            List<Journal> journals = _CBIBContext.Journal.ToList();
-
-            dict = Display(journals, authors);
-
-            var vm = new HomeIndexViewModel
+            if ((!String.IsNullOrEmpty(year)))
             {
-                dict = dict
-            };
+                q = q.Where(p => p.Year.ToLower().Contains(year.ToLower().Trim())).ToList();
+            }
+            if ((!String.IsNullOrEmpty(node)))
+            {
+                q = q.Where(p=>p.Author.Node.Name.ToLower().Contains(node.Trim().ToLower())).ToList();
+            }
 
-            return View(vm);
+            return View(q);
         }
+        
 
         public IActionResult About()
         {

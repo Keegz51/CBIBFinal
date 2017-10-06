@@ -62,7 +62,7 @@ namespace CBIB
             });
 
             services.Configure<AuthMessageSenderOptions>(Configuration);
-
+            services.AddNodeServices();
             services.AddMvc();
 
             // Configure Identity

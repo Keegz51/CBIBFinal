@@ -155,6 +155,9 @@ namespace CBIB.Controllers
                 }
 
                 journal.ProofOfpeerReview = "This journal has not yet been peer reviewed";
+
+                journal.Author = author;
+
                 _context.Add(journal);
                 await _context.SaveChangesAsync();
 

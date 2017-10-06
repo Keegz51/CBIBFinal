@@ -37,5 +37,7 @@ namespace CBIB.Models
         public string PeerUrl { get; set; }
 
         public long AuthorID { get; set; }
+
+        public Author Author { get; set; }
     }
 }
