@@ -4,68 +4,70 @@
 @{
     ViewData["Title"] = "Details";
 }
+<div class="container body-content">
+    <h2>Details</h2>
 
-<h2>Details</h2>
+    <div>
+        <h4>Journal</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
 
-<div>
-    <h4>Journal</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Type)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Type)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CoAuthor1)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CoAuthor1)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CoAuthor2)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CoAuthor2)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CoAuthor1)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CoAuthor1)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CoAuthor2)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CoAuthor2)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Year)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Year)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Year)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Year)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Abstract)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Abstract)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Abstract)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Abstract)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ProofOfpeerReview)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ProofOfpeerReview)
+            </dd>
+        </dl>
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ProofOfpeerReview)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ProofOfpeerReview)
-        </dd>
-    </dl>
-</div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> ||
+        <a asp-action="Index">Back to List</a> ||
+        <a asp-controller="Journals" asp-action="JournalDownload" asp-route-id="@Model.ID">Download pdf copy of Journal</a> ||
+        @if (User.IsInRole("Global Administrator") || User.IsInRole("Node Administrator"))
+        {
+            <a asp-controller="Journals" asp-action="PeerReviewDownload" asp-route-id="@Model.ID">Download pdf copy of Peer Review</a>
+        }
+    </div>
 
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> ||
-    <a asp-action="Index">Back to List</a> ||
-    <a asp-controller="Journals" asp-action="JournalDownload" asp-route-id="@Model.ID">Download pdf copy of Journal</a> ||
-    @if (User.IsInRole("Global Administrator") || User.IsInRole("Node Administrator"))
-    {
-        <a asp-controller="Journals" asp-action="PeerReviewDownload" asp-route-id="@Model.ID">Download pdf copy of Peer Review</a>
-    }
 </div>

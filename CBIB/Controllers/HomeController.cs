@@ -18,7 +18,7 @@ namespace CBIB.Controllers
         }
         public async Task<IActionResult> Index(string authorString, string type, string year, bool reviewed, string node)
         {
-            List<Journal> q = await _CBIBContext.Journal.Include(a => a.Author).ThenInclude(n=>n.Node).ToListAsync();
+            List<Journal> q = await _CBIBContext.Journal.Include(a => a.Author).ToListAsync();
 
             if ((!String.IsNullOrEmpty(authorString)))
             {
@@ -32,10 +32,10 @@ namespace CBIB.Controllers
             {
                 q = q.Where(p => p.Year.ToLower().Contains(year.ToLower().Trim())).ToList();
             }
-            if ((!String.IsNullOrEmpty(node)))
-            {
-                q = q.Where(p=>p.Author.Node.Name.ToLower().Contains(node.Trim().ToLower())).ToList();
-            }
+            //if ((!String.IsNullOrEmpty(node)))
+            //{
+            //    q = q.Where(p=>p.Author.AuthorNode.Name.ToLower().Contains(node.Trim().ToLower())).ToList();
+            //}
 
             return View(q);
         }

@@ -179,11 +179,11 @@ namespace CBIB.Controllers
                 authors.NodeID = node.ID;
 
                 _context.Author.Add(authors);
-                _context.Node.Add(nodeAssigned);
                 _context.SaveChanges();
 
                 nodeAssigned.Authors.Add(authors);
-              
+                //_context.Author;
+
                 await _context.SaveChangesAsync();
 
                 if (result.Succeeded)

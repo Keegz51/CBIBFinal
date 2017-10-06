@@ -3,122 +3,124 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<div class="container body-content">
+    <h2>Edit</h2>
 
-<h2>Edit</h2>
-
-<form asp-action="Edit">
-    <div class="form-horizontal">
-        <h4>Journal</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="ID" />
-        <div class="form-group">
-            <label asp-for="Title" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+    <form asp-action="Edit">
+        <div class="form-horizontal">
+            <h4>Journal</h4>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Title" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label asp-for="Type" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="Type" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Type" class="form-control" />
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
-            <label asp-for="CoAuthor1" class="col-lg-1 col-lg-offset-1"></label>
-            <div class="col-md-10">
-                <select asp-for="CoAuthor1" class="form-control"
-                        asp-items="@(new SelectList(@ViewBag.ListOfNodes,"AuthorID", "Name"))"></select>
+            <div class="form-group">
+                <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
+                <label asp-for="CoAuthor1" class="col-lg-1 col-lg-offset-1"></label>
+                <div class="col-md-10">
+                    <select asp-for="CoAuthor1" class="form-control"
+                            asp-items="@(new SelectList(@ViewBag.ListOfNodes,"AuthorID", "Name"))"></select>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                    @if (ViewBag.SelectedValue != null)
-                    {
-                        <text>Selected Country ID: </text> @ViewBag.SelectedValue;
-                    }
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        @if (ViewBag.SelectedValue != null)
+                        {
+                            <text>Selected Country ID: </text> @ViewBag.SelectedValue;
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
+                <label asp-for="CoAuthor2" class="col-sm-1 col-lg-offset-1"></label>
+                <div class="col-md-10">
+                    <select asp-for="CoAuthor2" class="form-control"
+                            asp-items="@(new SelectList(@ViewBag.ListOfNodes,"AuthorID", "Name"))"></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        @if (ViewBag.SelectedValue != null)
+                        {
+                            <text>Selected Country ID: </text> @ViewBag.SelectedValue;
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Year" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Year" class="form-control" />
+                    <span asp-validation-for="Year" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Abstract" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <textarea asp-for="Abstract" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="Abstract" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10 col-lg-offset-2">
+                    <p>Update pdf related to publication:</p>
+                    <input type="file" name="file1" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10 col-lg-offset-2">
+                    <p>Update pdf proof of peer review</p>
+                    <input type="file" name="file2" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="checkbox">
+                        <label asp-for="PeerReviewed">
+                            <input asp-for="PeerReviewed" />
+                            @Html.DisplayNameFor(m => m.PeerReviewed)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
-            <label asp-for="CoAuthor2" class="col-sm-1 col-lg-offset-1"></label>
-            <div class="col-md-10">
-                <select asp-for="CoAuthor2" class="form-control"
-                        asp-items="@(new SelectList(@ViewBag.ListOfNodes,"AuthorID", "Name"))"></select>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                    @if (ViewBag.SelectedValue != null)
-                    {
-                        <text>Selected Country ID: </text> @ViewBag.SelectedValue;
-                    }
-                </div>
-            </div>
-        </div>
+    </form>
 
-        <div class="form-group">
-            <label asp-for="Year" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Year" class="form-control" />
-                <span asp-validation-for="Year" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Abstract" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <textarea asp-for="Abstract" class="form-control" rows="5"></textarea>
-                <span asp-validation-for="Abstract" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-10 col-lg-offset-2">
-                <p>Update pdf related to publication:</p>
-                <input type="file" name="file1" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-10 col-lg-offset-2">
-                <p>Update pdf proof of peer review</p>
-                <input type="file" name="file2" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <label asp-for="PeerReviewed">
-                        <input asp-for="PeerReviewed" />
-                        @Html.DisplayNameFor(m => m.PeerReviewed)
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
 
-</form>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
