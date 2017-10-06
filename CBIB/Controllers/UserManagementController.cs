@@ -39,6 +39,7 @@ namespace CBIB.Controllers
         {
             List<Author> authorList = null;
             var vm = new UserManagementIndexViewModel();
+            vm.Users= _dbContext.Users.OrderBy(u => u.Email).Include(u => u.Roles).ToList();
             List<ApplicationUser> UserList = new List<ApplicationUser>();
 
             var user = await _userManager.GetUserAsync(User);

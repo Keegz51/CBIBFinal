@@ -20,7 +20,7 @@
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li class="dropdown container" style="padding-left:60px">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                     Filter <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -30,112 +30,110 @@
                                             <div class="form-group">
                                                 <input type="text" name="authorString" placeholder="Author Name">
                                             </div>
-                                            
+
                                             <div class="form-group">
                                                 <input type="text" name="year" placeholder="Year">
                                             </div>
-                                            
+
                                             <div class="form-group">
                                                 <input type="text" name="type" placeholder="Type">
                                             </div>
                                             @*<div class="form-group">
-                                                <input type="text" name="node" placeholder="Node">
-                                            </div>*@
+                                                    <input type="text" name="node" placeholder="Node">
+                                                </div>*@
                                             @*<div class="form-group">
-                                                <label for="reviewed">Peer Reviewed?</label>
-                                                <input type="checkbox" name="reviewed" style="padding-left:80px">
-                                            </div>*@
+                                                    <label for="reviewed">Peer Reviewed?</label>
+                                                    <input type="checkbox" name="reviewed" style="padding-left:80px">
+                                                </div>*@
                                             <div class="form-group">
                                                 <input type="submit" value="search" />
-                                            </div>  
+                                            </div>
                                         </form>
                                     </li>
-                                 </ul>
+                                </ul>
                             </li>
                         </ul>
                     </div>
-                </div>  
+                </div>
             </nav>
         </div>
-        <div class="container body-content">
+        <div class="col-sm-9 col-lg-10">
             <br />
             <br />
             @foreach (var item in Model)
             {
-        <div class="panel panel-primary">
+                <div class="panel panel-primary">
 
-            <div class="panel-heading">
-                <strong>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </strong>
-            </div>
+                    <div class="panel-heading">
+                        <strong>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </strong>
+                    </div>
 
-            <div class="panel-body">
-                <div>
-                    <strong>
-                        Author @Html.DisplayNameFor(modelItem => item.Author.Name)
-                    </strong>
-                    <br />
-                    @Html.DisplayFor(modelItem => item.Author.Name)
-                    <br />
-                    <br />
+                    <div class="panel-body">
+                        <div>
+                            <strong>
+                                Author @Html.DisplayNameFor(modelItem => item.Author.Name)
+                            </strong>
+                            <br />
+                            @Html.DisplayFor(modelItem => item.Author.Name)
+                            <br />
+                            <br />
+                        </div>
+
+                        <div>
+                            <strong>
+                                @Html.DisplayNameFor(modelItem => item.Type) Type
+                            </strong>
+                            <br />
+                            @Html.DisplayFor(modelItem => item.Type)
+                            <br />
+                            <br />
+                        </div>
+
+                        <div>
+                            <strong>
+                                Co-Authors
+                            </strong>
+                            <br />
+                            @Html.DisplayFor(modelItem => item.CoAuthor1), @Html.DisplayFor(modelItem => item.CoAuthor2)
+                            <br />
+                            <br />
+                        </div>
+
+                        <div>
+                            <strong>
+                                @Html.DisplayNameFor(modelItem => item.Year)
+                            </strong>
+                            <br />
+                            @Html.DisplayFor(modelItem => item.Year)
+                            <br />
+                            <br />
+                        </div>
+
+                        <div>
+                            <strong>
+                                @Html.DisplayNameFor(modelItem => item.Abstract)
+                            </strong>
+                            <br />
+                            @Html.DisplayFor(modelItem => item.Abstract)
+                            <br />
+                            <br />
+                        </div>
+
+                        <div>
+                            <strong>
+                                @Html.DisplayNameFor(modelItem => item.ProofOfpeerReview)
+                            </strong>
+                            <br />
+                            @Html.DisplayFor(modelItem => item.ProofOfpeerReview)
+                        </div>
+                        <br />
+                        <br />
+                    </div>
                 </div>
-
-                <div>
-                    <strong>
-                        @Html.DisplayNameFor(modelItem => item.Type) Type
-                    </strong>
-                    <br />
-                    @Html.DisplayFor(modelItem => item.Type)
-                    <br />
-                    <br />
-                </div>
-
-                <div>
-                    <strong>
-                        Co-Authors
-                    </strong>
-                    <br />
-                    @Html.DisplayFor(modelItem => item.CoAuthor1), @Html.DisplayFor(modelItem => item.CoAuthor2)
-                    <br />
-                    <br />
-                </div>
-
-                <div>
-                    <strong>
-                        @Html.DisplayNameFor(modelItem => item.Year)
-                    </strong>
-                    <br />
-                    @Html.DisplayFor(modelItem => item.Year)
-                    <br />
-                    <br />
-                </div>
-
-                <div>
-                    <strong>
-                        @Html.DisplayNameFor(modelItem => item.Abstract)
-                    </strong>
-                    <br />
-                    @Html.DisplayFor(modelItem => item.Abstract)
-                    <br />
-                    <br />
-                </div>
-
-                <div>
-                    <strong>
-                        @Html.DisplayNameFor(modelItem => item.ProofOfpeerReview)
-                    </strong>
-                    <br />
-                    @Html.DisplayFor(modelItem => item.ProofOfpeerReview)
-                </div>
-                <br />
-                <br />
-            </div>
-        </div>
-    }
-
+            }
         </div>
     </div>
-</div>    
-   
+</div>
 
